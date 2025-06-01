@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kontak Kami - AZZURA BOUTIQUE</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="logo">AZZURA BOUTIQUE</a>
+        <ul class="nav-links">
+            <li><a href="products.html">Produk</a></li>
+            <li><a href="about.html">Tentang Kami</a></li>
+            <li><a href="contact.html" class="active">Kontak</a></li> <li><a href="login.html">Login</a></li>
+            <li><a href="register.html">Daftar</a></li>
+        </ul>
+    </nav>
+
+    <div class="section-padded">
+        <h1>Hubungi Kami</h1>
+        <p class="section-description">
+            Kami senang mendengar dari Anda! Jangan ragu untuk menghubungi kami melalui formulir di bawah ini atau melalui informasi kontak langsung kami.
+        </p>
+
+        <div class="contact-grid">
+            <div class="contact-info">
+                <h2>Informasi Kontak</h2>
+                <div class="info-item">
+                    <i class="fas fa-map-marker-alt icon-contact"></i>
+                    <p>Jl. Jenderal Sudirman No. 123, Jakarta Pusat, DKI Jakarta, Indonesia</p>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-phone icon-contact"></i>
+                    <p>+62 822-1141-6473 (Layanan Pelanggan)</p>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-envelope icon-contact"></i>
+                    <p>info@azzuraboutique.com</p>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-clock icon-contact"></i>
+                    <p>Senin - Jumat: 09:00 - 17:00 WIB</p>
+                </div>
+
+                <h2>Ikuti Kami</h2>
+                <div class="social-links">
+                    <a href="https://facebook.com/azzuraboutique" target="_blank" rel="noopener noreferrer" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://instagram.com/azzuraboutique" target="_blank" rel="noopener noreferrer" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    <a href="https://twitter.com/azzuraboutique" target="_blank" rel="noopener noreferrer" class="social-icon"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+
+            <div class="contact-form-wrapper">
+                <h2>Kirim Pesan kepada Kami</h2>
+                <div id="contactStatusMessage" class="message hidden" role="alert" aria-live="polite"></div>
+
+                <form id="contactForm">
+                    <div class="form-group">
+                        <label for="contactName">Nama Lengkap:</label>
+                        <input type="text" id="contactName" name="name" placeholder="Nama Anda" required autocomplete="name">
+                        <div class="error-message" id="contactNameError" aria-live="assertive"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="contactEmail">Email Anda:</label>
+                        <input type="email" id="contactEmail" name="email" placeholder="Alamat email Anda" required autocomplete="email">
+                        <div class="error-message" id="contactEmailError" aria-live="assertive"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="contactSubject">Subjek:</label>
+                        <input type="text" id="contactSubject" name="subject" placeholder="Subjek pesan" required>
+                        <div class="error-message" id="contactSubjectError" aria-live="assertive"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="contactMessage">Pesan Anda:</label>
+                        <textarea id="contactMessage" name="message" rows="6" placeholder="Tulis pesan Anda di sini..." required></textarea>
+                        <div class="error-message" id="contactMessageError" aria-live="assertive"></div>
+                    </div>
+                    <button type="submit" id="contactSubmitButton">Kirim Pesan</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2025 AZZURA BOUTIQUE. Hak Cipta Dilindungi.</p>
+            <div class="footer-links">
+                <a href="privacy-policy.html">Kebijakan Privasi</a> |
+                <a href="terms-of-service.html">Syarat & Ketentuan</a> |
+                <a href="faq.html">FAQ</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const contactSubmitButton = document.getElementById('contactSubmitButton');
+            const contactStatusMessageDiv = document.getElementById('contactStatusMessage');
+            let formIsValid = true;
+
+            // Fungsi validasi sederhana untuk setiap field
+            const validateField = (inputElement) => {
+                const name = inputElement.name;
+                const value = inputElement.value.trim();
+                let errorMessage = '';
+                let isValid = true;
+
+                document.getElementById(name + 'Error').textContent = ''; // Clear previous error
+
+                if (value === '') {
+                    errorMessage = 'Field ini wajib diisi.';
+                    isValid = false;
+                } else if (name === 'email' && !/\S+@\S+\.\S+/.test(value)) {
+                    errorMessage = 'Format email tidak valid.';
+                    isValid = false;
+                }
+                
+                document.getElementById(name + 'Error').textContent = errorMessage;
+                return isValid;
+            };
+
+            // Validasi semua field sebelum submit
+            const fieldsToValidate = [
+                document.getElementById('contactName'),
+                document.getElementById('contactEmail'),
+                document.getElementById('contactSubject'),
+                document.getElementById('contactMessage')
+            ];
+
+            fieldsToValidate.forEach(field => {
+                if (!validateField(field)) {
+                    formIsValid = false;
+                }
+            });
+
+            if (!formIsValid) {
+                showStatusMessage('Harap perbaiki kesalahan pada formulir.', 'error', contactStatusMessageDiv);
+                return;
+            }
+
+            // Disable tombol dan tampilkan pesan loading
+            contactSubmitButton.disabled = true;
+            showStatusMessage('Mengirim pesan...', 'info', contactStatusMessageDiv);
+
+            const formData = {
+                name: document.getElementById('contactName').value.trim(),
+                email: document.getElementById('contactEmail').value.trim(),
+                subject: document.getElementById('contactSubject').value.trim(),
+                message: document.getElementById('contactMessage').value.trim()
+            };
+
+            try {
+                // Ganti dengan URL endpoint backend Anda untuk kontak (misal: /api/contact)
+                // Backend akan menerima data ini dan mungkin mengirim email atau menyimpannya.
+                const response = await fetch('http://127.0.0.1:5000/api/contact', { // Asumsi ada endpoint /api/contact
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    showStatusMessage(result.message || 'Pesan Anda berhasil terkirim!', 'success', contactStatusMessageDiv);
+                    document.getElementById('contactForm').reset(); // Bersihkan form
+                } else {
+                    showStatusMessage(result.message || 'Gagal mengirim pesan. Silakan coba lagi.', 'error', contactStatusMessageDiv);
+                }
+            } catch (error) {
+                console.error('Error saat mengirim pesan:', error);
+                showStatusMessage('Tidak dapat terhubung ke server. Silakan coba lagi nanti.', 'error', contactStatusMessageDiv);
+            } finally {
+                contactSubmitButton.disabled = false; // Aktifkan kembali tombol
+            }
+        });
+
+        // Event listeners untuk validasi onBlur
+        document.getElementById('contactName').addEventListener('blur', (e) => validateField(e.target));
+        document.getElementById('contactEmail').addEventListener('blur', (e) => validateField(e.target));
+        document.getElementById('contactSubject').addEventListener('blur', (e) => validateField(e.target));
+        document.getElementById('contactMessage').addEventListener('blur', (e) => validateField(e.target));
+
+        // Fungsi umum untuk menampilkan pesan status (dipisahkan agar bisa digunakan di banyak tempat)
+        function showStatusMessage(message, type, targetElement) {
+            targetElement.textContent = message;
+            targetElement.className = `message ${type}`;
+            targetElement.classList.remove('hidden');
+            setTimeout(() => {
+                targetElement.classList.add('hidden');
+            }, 5000);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,1122 @@
+/*
+ * styles.css
+ *
+ * Global Stylesheet for AZURA BOUTIQUE Website
+ *
+ * This stylesheet provides a consistent and responsive design across
+ * various sections and components of the website.
+ *
+ */
+
+/* --- 1. Root Variables (Theme Colors, Fonts, Spacing, Shadows) --- */
+:root {
+    /* Color Palette */
+    --primary-color: #007bff;          /* Blue */
+    --primary-dark-color: #0056b3;     /* Darker Blue */
+    --secondary-color: #6c757d;        /* Grey */
+    --success-color: #2874a7;          /* Green */
+    --danger-color: #dc3545;           /* Red */
+    --info-color: #17a2b8;             /* Teal */
+
+    /* Text Colors */
+    --text-heading: #222;
+    --text-body: #333;
+    --text-paragraph: #444;
+    --text-muted: #666;
+    --text-faded: #777;
+    --text-white: #fff;
+
+    /* Background Colors */
+    --bg-body: #f4f4f4;
+    --bg-white: #fff;
+    --bg-light: #f9f9f9;
+    --bg-light-blue: #f0f8ff; /* For specific sections like bottom CTA */
+
+    /* Border Colors */
+    --border-light: #eee;
+    --border-medium: #ccc;
+    --border-subtle: #e0e0e0;
+
+    /* Shadows */
+    --shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 0 15px rgba(0, 0, 0, 0.15);
+    --shadow-xl: 0 0 20px rgba(0,0,0,0.1);
+
+    /* Spacing */
+    --spacing-xs: 10px;
+    --spacing-sm: 15px;
+    --spacing-md: 20px;
+    --spacing-lg: 30px;
+    --spacing-xl: 40px;
+    --spacing-xxl: 60px;
+}
+
+/* --- 2. Base Styles & Global Resets --- */
+*, *::before, *::after {
+    box-sizing: border-box; /* Ensures padding and border are included in the element's total width and height */
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: var(--bg-body);
+    color: var(--text-body);
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    text-align: center; /* Default center alignment for the body, overridden by specific sections */
+    -webkit-font-smoothing: antialiased; /* Improved font rendering for Webkit browsers */
+    -moz-osx-font-smoothing: grayscale; /* Improved font rendering for Firefox on macOS */
+}
+
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+a:hover {
+    color: var(--primary-dark-color);
+    text-decoration: underline;
+}
+
+/* Global container for centered and constrained content */
+.container {
+    background: var(--bg-white);
+    width: 300px;
+    max-width: 90%;
+    margin: 100px auto;
+    padding: var(--spacing-md);
+    border-radius: 10px;
+    box-shadow: var(--shadow-lg);
+}
+
+/* --- 3. Typography --- */
+h1, h2, h3, h4 {
+    color: var(--text-heading);
+    margin-top: 0;
+    margin-bottom: var(--spacing-md); /* Consistent bottom margin */
+    line-height: 1.2;
+    font-weight: 700;
+}
+
+h1 {
+    font-size: 2.8em;
+}
+
+h2 {
+    font-size: 2.2em;
+    font-weight: 600;
+}
+
+h3 {
+    font-size: 1.8em;
+    font-weight: 500;
+}
+
+h4 {
+    font-size: 1.4em;
+    font-weight: 500;
+}
+
+p {
+    font-size: 1em;
+    color: var(--text-paragraph);
+    line-height: 1.7;
+    margin-bottom: var(--spacing-sm);
+}
+
+/* Specific text utilities */
+.text-white {
+    color: var(--text-white) !important; /* Use !important to ensure override */
+}
+
+/* --- 4. Section Layouts & General Components --- */
+.section-padded {
+    padding: var(--spacing-xxl) var(--spacing-md); /* Top/bottom, left/right */
+    margin: var(--spacing-xl) auto;
+    max-width: 1200px;
+    border-radius: 10px;
+    background-color: var(--bg-white);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.section-title {
+    font-size: 2.8em;
+    color: var(--text-heading);
+    margin-bottom: var(--spacing-md);
+    font-weight: 700;
+}
+
+.section-subtitle {
+    font-size: 2.2em;
+    color: var(--text-heading);
+    margin-bottom: var(--spacing-xl);
+    font-weight: 600;
+}
+
+.section-description {
+    font-size: 1.1em;
+    color: var(--text-muted);
+    max-width: 800px;
+    margin: 0 auto var(--spacing-xl) auto;
+    line-height: 1.8;
+}
+
+.section-description-small {
+    font-size: 0.95em;
+    color: var(--text-muted);
+    max-width: 400px;
+    margin: var(--spacing-xs) auto var(--spacing-lg) auto;
+    line-height: 1.5;
+}
+
+/* Background Utility Classes */
+.bg-light {
+    background-color: var(--bg-light);
+}
+
+.bg-primary-dark {
+    background-color: var(--primary-dark-color);
+}
+
+/* --- 5. Navigation Bar --- */
+.navbar {
+    background: var(--primary-color);
+    color: var(--text-white);
+    padding: var(--spacing-sm) var(--spacing-lg);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar .logo {
+    font-size: 1.8em;
+    font-weight: bold;
+    text-decoration: none;
+    color: var(--text-white);
+    transition: transform 0.2s ease;
+}
+
+.navbar .logo:hover {
+    transform: scale(1.05);
+}
+
+.navbar .nav-links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: var(--spacing-md);
+}
+
+.navbar .nav-links a {
+    color: var(--text-white);
+    text-decoration: none;
+    padding: 8px 12px;
+    transition: background-color 0.3s ease, border-radius 0.2s ease;
+    border-radius: 6px;
+    font-weight: 500;
+}
+
+.navbar .nav-links a:hover,
+.navbar .nav-links a.active {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+}
+
+.navbar .logout {
+    color: var(--text-white);
+    text-decoration: none;
+    background: var(--danger-color);
+    padding: 10px 18px;
+    border-radius: 6px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-weight: bold;
+}
+
+.navbar .logout:hover {
+    background-color: #c82333;
+    transform: translateY(-1px);
+}
+
+/* --- 6. Buttons --- */
+.btn {
+    background-color: var(--primary-color);
+    color: var(--text-white);
+    padding: 12px 20px;
+    border: none;
+    width: 100%;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: bold;
+    text-decoration: none;
+    display: inline-block; /* Crucial for links styled as buttons */
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    margin-top: var(--spacing-sm);
+}
+
+.btn:hover {
+    background-color: var(--primary-dark-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Specific button styles */
+.btn-secondary {
+    background-color: var(--secondary-color);
+}
+.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+.btn-light {
+    background-color: var(--text-white);
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+}
+.btn-light:hover {
+    background-color: var(--bg-light);
+    color: var(--primary-dark-color);
+    border-color: var(--primary-dark-color);
+}
+
+/* --- 7. Forms & Inputs --- */
+form {
+    margin-top: var(--spacing-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.form-group {
+    margin-bottom: var(--spacing-md);
+    text-align: left;
+}
+
+label {
+    display: block;
+    text-align: left;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: var(--text-paragraph);
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="number"],
+input[type="tel"],
+textarea,
+select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border-medium);
+    border-radius: 8px;
+    font-size: 1em;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+input:focus, textarea:focus, select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+    outline: none;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+/* Form links (login, register, forgot password) */
+.form-link-group { /* Grouping common styles for these links */
+    margin-top: var(--spacing-md);
+    font-size: 1em;
+    color: var(--text-muted);
+}
+
+.form-link-group a {
+    color: var(--primary-color);
+    font-weight: bold;
+    transition: color 0.2s ease, text-decoration 0.2s ease;
+}
+
+.form-link-group a:hover {
+    color: var(--primary-dark-color);
+    text-decoration: underline;
+}
+
+/* --- 8. Messages & Alerts --- */
+.message {
+    padding: 12px 20px;
+    margin: var(--spacing-md) 0;
+    border-radius: 8px;
+    font-weight: bold;
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+    animation: fadeIn 0.5s ease-out;
+}
+
+.message.hidden {
+    display: none;
+}
+
+.message.success {
+    background-color: #d4edda;
+    color: #28717ea7;
+    border: 1px solid #c3e6cb;
+}
+
+.message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* Icon support for messages (requires Font Awesome) */
+.message.success::before {
+    font-family: "Font Awesome 6 Free";
+    content: "\f00c"; /* Check icon */
+    font-weight: 900;
+    margin-right: 8px;
+}
+
+.message.error::before {
+    font-family: "Font Awesome 6 Free";
+    content: "\f06a"; /* Exclamation icon */
+    font-weight: 900;
+    margin-right: 8px;
+}
+
+.error-message {
+    color: var(--danger-color);
+    font-size: 0.875em;
+    margin-top: 8px;
+    display: block;
+    font-weight: normal;
+}
+
+/* --- 9. Hero Section --- */
+.hero {
+    padding: 120px var(--spacing-md);
+    background: url('https://via.placeholder.com/1500x500?text=Fashion+Boutique+Hero') no-repeat center center/cover;
+    color: var(--text-white);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 450px;
+    text-shadow: 2px 2px 6px rgba(0,0,0,0.7);
+}
+
+.hero h1 {
+    font-size: 3.5em;
+    color: var(--text-white);
+    margin-bottom: var(--spacing-md);
+}
+
+.hero p {
+    font-size: 1.3em;
+    color: var(--text-white);
+    margin-top: var(--spacing-xs);
+    margin-bottom: var(--spacing-xl);
+    max-width: 800px;
+}
+
+/* --- 10. Dashboard Styles --- */
+.dashboard {
+    margin: 50px auto;
+    padding: var(--spacing-lg);
+    max-width: 900px;
+    background: var(--bg-white);
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.08);
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--spacing-lg);
+    margin-top: var(--spacing-lg);
+}
+
+.dashboard-card {
+    background: var(--bg-light);
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    text-align: left;
+    transition: transform 0.2s ease;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-3px);
+}
+
+.dashboard-card h3 {
+    color: var(--primary-color);
+    margin-top: 0;
+    font-size: 1.5em;
+}
+
+.dashboard-card p {
+    font-size: 1em;
+    color: var(--text-muted);
+}
+
+.dashboard .btn {
+    display: block;
+    width: 250px;
+    max-width: 90%;
+    margin: var(--spacing-lg) auto 0;
+}
+
+/* --- 11. Features Section --- */
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--spacing-lg);
+    margin-top: var(--spacing-lg);
+    text-align: left;
+}
+
+.feature-box {
+    background: var(--bg-white);
+    padding: var(--spacing-lg);
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    transition: transform 0.3s ease;
+    text-align: center;
+}
+
+.feature-box:hover {
+    transform: translateY(-5px);
+}
+
+.feature-box h3 {
+    color: var(--primary-color);
+    margin-top: 0;
+    font-size: 1.4em;
+    margin-bottom: var(--spacing-xs);
+}
+
+.feature-box p {
+    font-size: 1em;
+    color: var(--text-muted);
+}
+
+/* --- 12. Product Cards --- */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: var(--spacing-lg);
+    margin-top: var(--spacing-lg);
+    text-align: left;
+}
+
+.product-card {
+    background: var(--bg-white);
+    border: 1px solid var(--border-subtle);
+    border-radius: 10px;
+    box-shadow: var(--shadow-md);
+    padding: var(--spacing-md);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-7px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+}
+
+.product-card img {
+    max-width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: var(--spacing-sm);
+}
+
+.product-card h4 {
+    font-size: 1.25em;
+    margin: var(--spacing-xs) 0 8px 0;
+    color: var(--text-body);
+    text-align: center;
+    line-height: 1.3;
+}
+
+.product-card .price {
+    font-size: 1.4em;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-sm);
+}
+
+.product-card .add-to-cart-btn {
+    background-color: var(--success-color);
+    color: var(--text-white);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1em;
+    width: 90%;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-top: var(--spacing-xs);
+}
+
+.product-card .add-to-cart-btn:hover {
+    background-color: #216688;
+    transform: translateY(-2px);
+}
+
+/* --- 13. Call to Action (CTA) Section --- */
+.cta-section {
+    padding: 100px var(--spacing-md);
+    margin-top: 50px;
+    background-color: var(--primary-dark-color);
+    color: var(--text-white);
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.cta-section h2 {
+    color: var(--text-white);
+    margin-bottom: var(--spacing-md);
+    font-size: 2.5em;
+}
+
+.cta-section p {
+    font-size: 1.2em;
+    margin-bottom: var(--spacing-xl);
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* --- 14. Footer --- */
+.footer {
+    background-color: #222;
+    color: #f8f8f8;
+    padding: var(--spacing-xl) var(--spacing-md);
+    margin-top: var(--spacing-xxl);
+    text-align: center;
+    font-size: 0.9em;
+}
+
+.footer-content {
+    max-width: 960px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.footer-links a {
+    color: #f8f8f8;
+    text-decoration: none;
+    margin: 0 var(--spacing-sm);
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: var(--primary-color);
+}
+
+/* --- 15. About Page Specific Styles --- */
+.about-content-grid {
+    display: grid;
+    grid-template-columns: 1fr; /* Default to single column */
+    gap: var(--spacing-xl);
+    align-items: flex-start;
+    margin-bottom: var(--spacing-xxl);
+}
+
+.about-text-block {
+    padding: var(--spacing-md);
+    background-color: var(--bg-white);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    /* No general text-align here, handled by child elements */
+}
+
+/* SOLUTION FOR CENTERING "Visi Kami" and "Misi Kami" */
+.about-text-block h2 {
+    font-size: 1.6em;
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-sm);
+    border-bottom: 1px solid var(--border-light);
+    padding-bottom: 5px;
+    text-align: center; /* Explicitly center the H2 headings */
+}
+
+.about-text-block p {
+    font-size: 1em;
+    color: var(--text-paragraph);
+    line-height: 1.7;
+    margin-bottom: var(--spacing-sm);
+    text-align: center; /* Explicitly center the paragraph */
+}
+
+.about-text-block ul {
+    list-style: none; /* Remove default disc */
+    padding: 0;
+    margin: 0 auto; /* CENTER THE UL BLOCK ITSELF */
+    max-width: fit-content; /* Make UL only as wide as its content for margin auto to work */
+    text-align: left; /* Keep text inside LI aligned left for readability with bullets */
+}
+
+.about-text-block ul li {
+    font-size: 1em;
+    color: var(--text-paragraph);
+    line-height: 1.7;
+    margin-bottom: 10px;
+    position: relative;
+    padding-left: 25px; /* Space for custom bullet */
+}
+
+.about-text-block ul li::before {
+    content: '\f00c'; /* FontAwesome checkmark icon */
+    font-family: "Font Awesome 5 Free"; /* Ensure this font is loaded in HTML */
+    font-weight: 900; /* Required for solid icons in Font Awesome 5 */
+    position: absolute;
+    left: 0;
+    color: var(--success-color);
+}
+
+.about-image img.responsive-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: var(--shadow-md);
+}
+
+/* --- 16. Team Section --- */
+.team-section {
+    margin-top: var(--spacing-xxl);
+    margin-bottom: var(--spacing-xxl);
+}
+
+.team-section h2 {
+    font-size: 2em;
+    margin-bottom: var(--spacing-lg);
+    color: var(--text-body);
+}
+
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--spacing-lg);
+    margin-top: var(--spacing-lg);
+}
+
+.team-member-card {
+    background: var(--bg-white);
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    text-align: center;
+}
+
+.team-member-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: var(--spacing-sm);
+    border: 3px solid var(--primary-color);
+    box-shadow: 0 0 0 5px rgba(0,123,255,0.1);
+}
+
+.team-member-card h3 {
+    font-size: 1.4em;
+    color: var(--text-body);
+    margin-bottom: 5px;
+}
+
+.team-member-card .role {
+    font-size: 0.95em;
+    color: var(--primary-color);
+    font-weight: bold;
+    margin-bottom: var(--spacing-xs);
+}
+
+.team-member-card .bio {
+    font-size: 0.9em;
+    color: var(--text-muted);
+    line-height: 1.6;
+}
+
+/* --- 17. Bottom Call to Action --- */
+.call-to-action-bottom {
+    margin-top: var(--spacing-xxl);
+    padding: var(--spacing-xl);
+    background-color: var(--bg-light-blue);
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.call-to-action-bottom p {
+    font-size: 1.2em;
+    color: var(--text-body);
+    margin-bottom: 25px;
+}
+
+/* --- 18. Contact Page Specific Styles --- */
+.contact-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacing-xl);
+    margin-top: var(--spacing-xl);
+    text-align: left;
+}
+
+.contact-info {
+    background-color: var(--bg-light);
+    padding: var(--spacing-lg);
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.contact-info h2 {
+    font-size: 1.6em;
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-md);
+    border-bottom: 1px solid var(--border-light);
+    padding-bottom: 10px;
+}
+
+.info-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: var(--spacing-sm);
+    gap: var(--spacing-sm);
+}
+
+.info-item .icon-contact {
+    font-size: 1.5em;
+    color: var(--primary-color);
+    flex-shrink: 0;
+    padding-top: 2px;
+}
+
+.info-item p {
+    margin: 0;
+    font-size: 1em;
+    color: var(--text-paragraph);
+    line-height: 1.6;
+}
+
+.social-links {
+    margin-top: var(--spacing-lg);
+    display: flex;
+    gap: var(--spacing-sm);
+    justify-content: flex-start;
+}
+
+.social-icon {
+    font-size: 1.8em;
+    color: var(--primary-color);
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.social-icon:hover {
+    color: var(--primary-dark-color);
+    transform: translateY(-3px);
+}
+
+.contact-form-wrapper {
+    background-color: var(--bg-white);
+    padding: var(--spacing-lg);
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.contact-form-wrapper h2 {
+    font-size: 1.6em;
+    color: var(--text-body);
+    margin-bottom: 25px;
+    border-bottom: 1px solid var(--border-light);
+    padding-bottom: 10px;
+    text-align: center;
+}
+
+/* --- 19. Checkout Page Layout Styles --- */
+.checkout-layout {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--spacing-xl);
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: var(--spacing-lg);
+    background: var(--bg-white);
+    border-radius: 15px;
+    box-shadow: var(--shadow-xl);
+}
+
+.checkout-section {
+    flex: 1;
+    min-width: 320px;
+    padding: 25px;
+    border: 1px solid var(--border-light);
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    background-color: var(--bg-light);
+}
+
+/* Cart Summary Specific Styles */
+.cart-summary {
+    padding: 25px;
+    border: 1px solid var(--border-subtle);
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    background-color: var(--bg-white);
+    font-family: Arial, sans-serif;
+    margin: 0;
+}
+
+/* --- 20. Animations --- */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- 21. Responsive Design (Media Queries) --- */
+@media (min-width: 768px) {
+    .about-content-grid {
+        grid-template-columns: 1fr 1fr; /* Two columns on larger screens */
+    }
+    .contact-grid {
+        grid-template-columns: 1fr 2fr; /* Info on left, form on right */
+    }
+}
+
+@media (max-width: 992px) { /* Tablets and larger phones */
+    .navbar {
+        padding: var(--spacing-sm) var(--spacing-md);
+    }
+    .navbar .nav-links {
+        gap: var(--spacing-sm);
+    }
+    .hero {
+        padding: 80px var(--spacing-md);
+    }
+    .hero h1 {
+        font-size: 3em;
+    }
+    .hero p {
+        font-size: 1.1em;
+    }
+    .section-padded {
+        padding: var(--spacing-xxl) var(--spacing-sm);
+        margin: var(--spacing-lg) auto;
+    }
+    .dashboard-grid,
+    .features-grid,
+    .product-grid {
+        gap: var(--spacing-md);
+    }
+    .product-card img {
+        height: 180px;
+    }
+    .cta-section {
+        padding: 80px var(--spacing-md);
+    }
+    .checkout-layout {
+        gap: var(--spacing-md);
+        padding: var(--spacing-md);
+    }
+}
+
+@media (max-width: 768px) { /* Smaller tablets and phones */
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: var(--spacing-sm) var(--spacing-sm);
+    }
+    .navbar .nav-links {
+        flex-direction: column;
+        width: 100%;
+        text-align: left;
+        margin-top: var(--spacing-sm);
+    }
+    .navbar .nav-links li {
+        width: 100%;
+    }
+    .navbar .nav-links a {
+        display: block;
+        padding: 10px;
+        text-align: center;
+    }
+    .navbar .logout {
+        width: 100%;
+        margin-top: var(--spacing-sm);
+        text-align: center;
+        padding: 10px;
+    }
+    .container {
+        margin: 50px var(--spacing-sm);
+        padding: var(--spacing-sm);
+    }
+    h1 {
+        font-size: 2em;
+    }
+    h2 {
+        font-size: 1.6em;
+    }
+    h3 {
+        font-size: 1.3em;
+    }
+    .hero {
+        padding: var(--spacing-xxl) var(--spacing-sm);
+        min-height: 350px;
+    }
+    .hero h1 {
+        font-size: 2.5em;
+    }
+    .hero p {
+        font-size: 1em;
+    }
+    .dashboard,
+    .section-padded,
+    .cta-section {
+        margin: var(--spacing-lg) var(--spacing-sm);
+        padding: var(--spacing-md);
+    }
+    .dashboard-grid,
+    .features-grid,
+    .product-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-sm);
+    }
+    .product-card img {
+        height: 200px;
+    }
+    .footer {
+        padding: 25px var(--spacing-sm);
+    }
+    .checkout-layout {
+        flex-direction: column;
+        margin: var(--spacing-md) var(--spacing-xs);
+        padding: var(--spacing-sm);
+    }
+    .checkout-section {
+        min-width: unset;
+        width: 100%;
+        margin-bottom: var(--spacing-md);
+    }
+    .checkout-section:last-child {
+        margin-bottom: 0;
+    }
+}
+
+@media (max-width: 480px) { /* Very small phones */
+    .container {
+        width: 100%;
+        margin: var(--spacing-md) var(--spacing-xs);
+        padding: var(--spacing-xs);
+    }
+    h1 {
+        font-size: 1.8em;
+    }
+    h2 {
+        font-size: 1.4em;
+    }
+    .btn, button { /* Targeting all buttons */
+        font-size: 1em;
+        padding: 8px 10px;
+    }
+    .hero {
+        padding: var(--spacing-xl) var(--spacing-xs);
+        min-height: 300px;
+    }
+    .hero h1 {
+        font-size: 2em;
+    }
+    .hero p {
+        font-size: 0.9em;
+    }
+    .product-card img {
+        height: 150px;
+    }
+}
+/* --- 15. About Page Specific Styles --- */
+.about-content-grid {
+    display: grid;
+    grid-template-columns: 1fr; /* Default to single column */
+    gap: var(--spacing-xl);
+    align-items: flex-start;
+    margin-bottom: var(--spacing-xxl);
+}
+
+.about-text-block {
+    padding: var(--spacing-md);
+    background-color: var(--bg-white);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+
+    /* NEW/UPDATED: This ensures the block itself is centered if it doesn't take full width */
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 600px; /* Give it a max-width so it can be centered */
+}
+
+/* SOLUTION FOR CENTERING "Visi Kami" and "Misi Kami" */
+.about-text-block h2 {
+    font-size: 1.6em;
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-sm);
+    border-bottom: 1px solid var(--border-light);
+    padding-bottom: 5px;
+    text-align: center; /* Explicitly center the H2 headings */
+}
+
+.about-text-block p {
+    font-size: 1em;
+    color: var(--text-paragraph);
+    line-height: 1.7;
+    margin-bottom: var(--spacing-sm);
+    text-align: center; /* Explicitly center the paragraph */
+}
+
+.about-text-block ul {
+    list-style: none; /* Remove default disc */
+    padding: 0;
+    margin: 0 auto; /* CENTER THE UL BLOCK ITSELF */
+    max-width: fit-content; /* Make UL only as wide as its content for margin auto to work */
+    text-align: left; /* Keep text inside LI aligned left for readability with bullets */
+}
+
+.about-text-block ul li {
+    font-size: 1em;
+    color: var(--text-paragraph);
+    line-height: 1.7;
+    margin-bottom: 10px;
+    position: relative;
+    padding-left: 25px; /* Space for custom bullet */
+}
+
+.about-text-block ul li::before {
+    content: '\f00c'; /* FontAwesome checkmark icon */
+    font-family: "Font Awesome 5 Free"; /* Ensure this font is loaded in HTML */
+    font-weight: 900; /* Required for solid icons in Font Awesome 5 */
+    position: absolute;
+    left: 0;
+    color: var(--success-color);
+}

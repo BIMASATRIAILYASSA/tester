@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Akun - AZZURA BOUTIQUE</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    </head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="logo">AZZURA BOUTIQUE</a>
+        <ul class="nav-links">
+            <li><a href="products.html">Produk</a></li>
+            <li><a href="about.html">Tentang Kami</a></li>
+            <li><a href="contact.html">Kontak</a></li>
+            <li><a href="register.html">Daftar</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h2>Masuk ke Akun Anda</h2>
+        <div id="statusMessage" class="message hidden" role="alert" aria-live="polite"></div>
+
+        <form action="#" method="POST" id="loginForm" aria-labelledby="login-form-heading">
+            <h3 id="login-form-heading" class="sr-only">Form Login</h3> <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Masukkan alamat email Anda" required autocomplete="email">
+                <div class="error-message" id="emailError" aria-live="assertive"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Masukkan password Anda" required autocomplete="current-password">
+                <div class="error-message" id="passwordError" aria-live="assertive"></div>
+            </div>
+
+            <button type="submit" id="loginButton">Login</button>
+            <p class="register-link">Belum punya akun? <a href="register.html">Daftar di sini</a></p>
+            <p class="forgot-password-link"><a href="forgot-password.html">Lupa Password?</a></p>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async function(event) { // Tambahkan 'async'
+            event.preventDefault(); // Mencegah submit form default
+
+            let isValid = true;
+            const emailInput = document.getElementById('email');
+            const passwordInput = document.getElementById('password');
+            const loginButton = document.getElementById('loginButton');
+            const statusMessageDiv = document.getElementById('statusMessage');
+
+            // Fungsi untuk menampilkan pesan status (sukses/error)
+            const showStatusMessage = (message, type) => {
+                statusMessageDiv.textContent = message;
+                statusMessageDiv.className = `message ${type}`; // Add type class
+                statusMessageDiv.classList.remove('hidden');
+                // Auto-hide after 5 seconds
+                setTimeout(() => {
+                    statusMessageDiv.classList.add('hidden');
+                }, 5000);
+            };
+
+            // Reset error messages and status message
+            document.querySelectorAll('.error-message').forEach(el => el.textContent = '');
+            statusMessageDiv.textContent = '';
+            statusMessageDiv.className = 'message hidden'; // Reset class
+            loginButton.disabled = true; // Disable tombol saat proses
+
+            // --- Validasi Sisi Klien ---
+            if (emailInput.value.trim() === '') {
+                document.getElementById('emailError').textContent = 'Email wajib diisi.';
+                isValid = false;
+            } else if (!/\S+@\S+\.\S+/.test(emailInput.value)) { // Basic email regex
+                document.getElementById('emailError').textContent = 'Format email tidak valid.';
+                isValid = false;
+            }
+
+            if (passwordInput.value.trim() === '') {
+                document.getElementById('passwordError').textContent = 'Password wajib diisi.';
+                isValid = false;
+            } else if (passwordInput.value.length < 6) { // Minimal 6 karakter, sesuaikan dengan aturan backend
+                document.getElementById('passwordError').textContent = 'Password minimal 6 karakter.';
+                isValid = false;
+            }
+            // --- Akhir Validasi Sisi Klien ---
+
+            if (!isValid) {
+                loginButton.disabled = false; // Aktifkan kembali tombol jika validasi gagal
+                showStatusMessage('Harap perbaiki kesalahan pada form.', 'error');
+                return;
+            }
+
+            // --- Kirim Data ke Backend ---
+            const formData = {
+                email: emailInput.value.trim(),
+                password: passwordInput.value
+            };
+
+            try {
+                // Ganti dengan URL endpoint backend Anda yang sebenarnya
+                const response = await fetch('http://127.0.0.1:5000/api/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const result = await response.json();
+
+                if (response.ok) { // Status 200-299
+                    showStatusMessage(result.message || 'Login berhasil!', 'success');
+                    // Opsional: Simpan token atau user info ke localStorage/sessionStorage
+                    // localStorage.setItem('authToken', result.token);
+                    // localStorage.setItem('userId', result.user.user_id);
+                    // localStorage.setItem('userRole', result.user.role);
+
+                    // Redirect ke dashboard yang sesuai berdasarkan peran
+                    if (result.user && result.user.role === 'seller') {
+                        setTimeout(() => {
+                            window.location.href = 'dashboard-seller.html';
+                        }, 1000);
+                    } else { // Default ke buyer atau halaman lain
+                        setTimeout(() => {
+                            window.location.href = 'dashboard-buyer.html';
+                        }, 1000);
+                    }
+                } else { // Status 4xx atau 5xx
+                    showStatusMessage(result.message || 'Login gagal. Email atau password salah.', 'error');
+                }
+            } catch (error) {
+                console.error('Error saat login:', error);
+                showStatusMessage('Tidak dapat terhubung ke server. Silakan coba lagi nanti.', 'error');
+            } finally {
+                loginButton.disabled = false; // Aktifkan kembali tombol
+            }
+        });
+
+        // Event listener untuk validasi onBlur (opsional, memberikan umpan balik lebih awal)
+        document.getElementById('email').addEventListener('blur', validateOnBlur);
+        document.getElementById('password').addEventListener('blur', validateOnBlur);
+
+        function validateOnBlur(event) {
+            const input = event.target;
+            const name = input.name;
+            const value = input.value.trim();
+            let errorMessage = '';
+
+            if (name === 'email') {
+                if (value === '') {
+                    errorMessage = 'Email wajib diisi.';
+                } else if (!/\S+@\S+\.\S+/.test(value)) {
+                    errorMessage = 'Format email tidak valid.';
+                }
+            } else if (name === 'password') {
+                if (value === '') {
+                    errorMessage = 'Password wajib diisi.';
+                } else if (value.length < 6) {
+                    errorMessage = 'Password minimal 6 karakter.';
+                }
+            }
+            
+            document.getElementById(name + 'Error').textContent = errorMessage;
+        }
+    </script>
+</body>
+</html>

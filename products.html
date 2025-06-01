@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Koleksi Busana Muslimah - AZZURA BOUTIQUE</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="logo">AZZURA BOUTIQUE</a>
+        <ul class="nav-links">
+            <li><a href="products.html" class="active">Produk</a></li>
+            <li><a href="about.html">Tentang Kami</a></li>
+            <li><a href="contact.html">Kontak</a></li>
+            <li><a href="login.html">Login</a></li>
+            <li><a href="register.html">Daftar</a></li>
+            <li id="dashboard-nav-link" style="display: none;"><a href="dashboard.html">Dashboard</a></li>
+            <li id="logout-nav-link" style="display: none;"><a href="#" class="logout-btn">Logout</a></li>
+            <li><a href="cart.html"><i class="fas fa-shopping-cart"></i> <span id="cart-item-count">0</span></a></li>
+        </ul>
+    </nav>
+
+    <div class="section-padded">
+        <h1>Semua Koleksi Busana Muslimah Kami</h1>
+        <p class="section-description">Jelajahi pilihan terbaik busana muslimah yang syar'i, stylish, dan berkualitas dari AZZURA BOUTIQUE.</p>
+
+        <div class="filter-sort-bar">
+            <div class="filter-group">
+                <label for="category-filter">Kategori Busana:</label>
+                <select id="category-filter">
+                    <option value="all">Semua Busana</option>
+                    <option value="gamis">Gamis</option>
+                    <option value="abaya">Abaya</option>
+                    <option value="tunik">Tunik</option>
+                    <option value="hijab">Hijab</option>
+                    <option value="setelan">Setelan Muslimah</option>
+                    <option value="aksesoris">Aksesoris Muslimah</option>
+                    <option value="Dress Set">Dress Set</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="sort-by">Urutkan berdasarkan:</label>
+                <select id="sort-by">
+                    <option value="default">Terbaru</option>
+                    <option value="price-asc">Harga Terendah</option>
+                    <option value="price-desc">Harga Tertinggi</option>
+                    <option value="name-asc">Nama (A-Z)</option>
+                </select>
+            </div>
+            <div class="search-bar">
+                <input type="text" id="product-search" placeholder="Cari busana muslimah...">
+                <button id="search-button"><i class="fas fa-search"></i></button>
+            </div>
+        </div>
+
+        <div id="statusMessage" class="message hidden" role="alert" aria-live="polite"></div>
+
+        <div class="product-grid" id="productGrid">
+            <p id="loadingProducts" style="text-align: center; color: #007bff; font-size: 1.2em; padding: 50px;">Memuat koleksi busana muslimah...</p>
+        </div>
+
+        <p id="noProductsFound" class="message info hidden" style="text-align: center; padding: 50px;">Tidak ada busana muslimah yang ditemukan.</p>
+
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2025 AZZURA BOUTIQUE. Hak Cipta Dilindungi.</p>
+            <div class="footer-links">
+                <a href="privacy-policy.html">Kebijakan Privasi</a> |
+                <a href="terms-of-service.html">Syarat & Ketentuan</a> |
+                <a href="faq.html">FAQ</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const productGrid = document.getElementById('productGrid');
+        const loadingMessage = document.getElementById('loadingProducts');
+        const noProductsFoundMessage = document.getElementById('noProductsFound');
+        const statusMessageDiv = document.getElementById('statusMessage');
+
+        // Fungsi untuk menampilkan pesan status
+        function showStatusMessage(message, type) {
+            statusMessageDiv.textContent = message;
+            statusMessageDiv.className = `message ${type}`;
+            statusMessageDiv.classList.remove('hidden');
+            setTimeout(() => {
+                statusMessageDiv.classList.add('hidden');
+            }, 5000);
+        }
+
+        // Fungsi untuk memformat harga ke IDR
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0,
+            }).format(amount);
+        }
+
+        // Fungsi untuk menambahkan produk ke keranjang (simulasi)
+        function addToCart(productId, productName, price) {
+            alert(`"${productName}" (Rp${price.toLocaleString('id-ID')}) ditambahkan ke keranjang busana Anda! (Simulasi)`);
+            // Di sini Anda akan menambahkan logika sebenarnya untuk keranjang
+            // Contoh: fetch('/api/add-to-cart', { method: 'POST', body: JSON.stringify({ productId, quantity: 1 }) });
+        }
+
+        // Fungsi untuk memuat produk dari API
+        async function loadProducts() {
+            productGrid.innerHTML = ''; // Bersihkan grid
+            loadingMessage.classList.remove('hidden'); // Tampilkan loading
+            noProductsFoundMessage.classList.add('hidden'); // Sembunyikan pesan tidak ditemukan
+
+            try {
+                // Ganti dengan URL endpoint API produk Anda yang sebenarnya
+                // Untuk demo, saya akan menggunakan data dummy jika fetch gagal atau tidak ada API
+                const response = await fetch('http://127.0.0.1:5000/api/products');
+                let products = [];
+
+                if (response.ok) {
+                    products = await response.json();
+                } else {
+                    let errorData = await response.json();
+                    console.warn(`API error: ${errorData.message || 'Gagal mengambil produk. Menggunakan data dummy.'}`);
+                    // Fallback to dummy data if API fails
+                    products = [
+                        { product_id: 'ALISA001', name: 'Alisa Dress Set Hijab (Putih)', price: 350000, image_url: 'WhatsApp Image 2025-06-01 at 14.36.28_47992958.jpg', category: 'gamis' },
+                        { product_id: 'ALISA002', name: 'Alisa Dress Set Hijab (Coklat Tua)', price: 350000, image_url: 'WhatsApp Image 2025-06-01 at 14.36.28_47992958.jpg', category: 'gamis' },
+                        { product_id: 'ALISA003', name: 'Alisa Dress Set Hijab (Marun)', price: 350000, image_url: 'WhatsApp Image 2025-06-01 at 14.36.28_47992958.jpg', category: 'gamis' },
+                        { product_id: 'ALISA004', name: 'Alisa Dress Set Hijab (Coklat Muda)', price: 350000, image_url: 'WhatsApp Image 2025-06-01 at 14.36.27_6aa438dc.jpg', category: 'gamis' },
+                        { product_id: 'ALISA005', name: 'Alisa Dress Set Hijab (Hitam)', price: 350000, image_url: 'WhatsApp Image 2025-06-01 at 14.36.27_6aa438dc.jpg', category: 'gamis' },
+                        { product_id: 'ALISA006', name: 'Alisa Dress Set Hijab (Taupe)', price: 350000, image_url: 'WhatsApp Image 2025-06-01 at 14.36.27_473491b8.jpg', category: 'gamis' },
+                        { product_id: 'MUSL007', name: 'Khimar Daily Premium', price: 180000, image_url: 'https://via.placeholder.com/200x250?text=Khimar+Daily', category: 'hijab' },
+                        { product_id: 'MUSL008', name: 'Tunik Rayon Flowy', price: 210000, image_url: 'https://via.placeholder.com/200x250?text=Tunik+Flowy', category: 'tunik' },
+                        { product_id: 'MUSL009', name: 'Ciput Rajut Anti Pusing', price: 45000, image_url: 'https://via.placeholder.com/200x250?text=Ciput+Rajut', category: 'aksesoris' },
+                        { product_id: 'MUSL010', name: 'Outer Kimono Muslimah', price: 290000, image_url: 'https://via.placeholder.com/200x250?text=Outer+Kimono', category: 'outerwear' }
+                    ];
+                    showStatusMessage('Gagal mengambil produk dari server. Menampilkan data contoh.', 'warning');
+                }
+
+                if (products.length === 0) {
+                    noProductsFoundMessage.classList.remove('hidden');
+                } else {
+                    products.forEach(product => {
+                        const productCard = document.createElement('div');
+                        productCard.className = 'product-card';
+                        // Memastikan image_url ada, jika tidak gunakan placeholder
+                        const imageUrl = product.image_url || 'https://via.placeholder.com/200x250?text=Busana+Muslimah';
+                        productCard.innerHTML = `
+                            <img src="${imageUrl}" alt="${product.name}">
+                            <h4>${product.name}</h4>
+                            <p class="price">${formatCurrency(product.price)}</p>
+                            <button class="add-to-cart-btn" data-product-id="${product.product_id}" data-product-name="${product.name}" data-product-price="${product.price}" data-product-image="${imageUrl}">
+                                <i class="fas fa-cart-plus"></i> Tambah ke Keranjang
+                            </button>
+                        `;
+                        productGrid.appendChild(productCard);
+                    });
+
+                    // Tambahkan event listener untuk tombol "Tambah ke Keranjang" setelah produk dimuat
+                    document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+                        button.addEventListener('click', () => {
+                            const productId = button.dataset.productId;
+                            const productName = button.dataset.productName;
+                            const productPrice = parseFloat(button.dataset.productPrice); // Pastikan ini angka
+                            addToCart(productId, productName, productPrice);
+                        });
+                    });
+                }
+            } catch (error) {
+                console.error('Error memuat produk:', error);
+                showStatusMessage(error.message || 'Terjadi kesalahan saat memuat produk.', 'error');
+                noProductsFoundMessage.textContent = 'Gagal memuat produk. Silakan coba lagi nanti.';
+                noProductsFoundMessage.classList.remove('hidden');
+            } finally {
+                loadingMessage.classList.add('hidden'); // Sembunyikan loading
+            }
+        }
+
+        // Panggil fungsi untuk memuat produk saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', loadProducts);
+
+        // --- Event Listener untuk Filter/Sorting/Search (Implementasi akan lebih kompleks) ---
+        // Untuk implementasi penuh, Anda perlu memodifikasi `loadProducts` untuk menerima parameter
+        // filter/sort/search dan mengirimkannya ke API backend Anda.
+        document.getElementById('category-filter').addEventListener('change', (e) => {
+            console.log('Filter Kategori Busana:', e.target.value);
+            // Example: loadProducts({ category: e.target.value });
+        });
+        document.getElementById('sort-by').addEventListener('change', (e) => {
+            console.log('Urutkan berdasarkan:', e.target.value);
+            // Example: loadProducts({ sortBy: e.target.value });
+        });
+        document.getElementById('search-button').addEventListener('click', () => {
+            const searchTerm = document.getElementById('product-search').value;
+            console.log('Cari busana muslimah:', searchTerm);
+            // Example: loadProducts({ search: searchTerm });
+        });
+        document.getElementById('product-search').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                document.getElementById('search-button').click();
+            }
+        });
+
+        // Bagian untuk status autentikasi di navbar (disalin dari index.html)
+        const checkAuthStatus = () => {
+            const authToken = localStorage.getItem('authToken'); // Asumsi token disimpan di localStorage
+            const loginLink = document.getElementById('login-nav-link');
+            const registerLink = document.getElementById('register-nav-link');
+            const logoutLink = document.getElementById('logout-nav-link');
+            const dashboardLink = document.getElementById('dashboard-nav-link');
+
+            if (authToken) {
+                // Jika ada token, sembunyikan login/daftar, tampilkan logout/dashboard
+                if (loginLink) loginLink.style.display = 'none';
+                if (registerLink) registerLink.style.display = 'none';
+                if (logoutLink) logoutLink.style.display = 'block';
+                if (dashboardLink) dashboardLink.style.display = 'block';
+            } else {
+                // Jika tidak ada token, tampilkan login/daftar, sembunyikan logout/dashboard
+                if (loginLink) loginLink.style.display = 'block';
+                if (registerLink) registerLink.style.display = 'block';
+                if (logoutLink) logoutLink.style.display = 'none';
+                if (dashboardLink) dashboardLink.style.display = 'none';
+            }
+        };
+
+        // Event listener untuk tombol logout (disalin dari index.html)
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('logout-btn')) {
+                e.preventDefault();
+                localStorage.removeItem('authToken'); // Hapus token
+                localStorage.removeItem('userId'); // Hapus user ID
+                localStorage.removeItem('userRole'); // Hapus role
+                alert('Anda telah berhasil logout!');
+                checkAuthStatus(); // Update UI
+                window.location.href = 'index.html'; // Redirect ke beranda
+            }
+        });
+
+        // Panggil fungsi status autentikasi saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', checkAuthStatus);
+        // Memastikan jumlah keranjang juga diperbarui saat halaman dimuat (jika ada keranjang di products.html)
+        document.addEventListener('DOMContentLoaded', updateCartItemCount);
+    </script>
+</body>
+</html>
